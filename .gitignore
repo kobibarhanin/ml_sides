@@ -1,2 +1,4 @@
-linear_regression/models/*
-linear_regression/resources/
+**/models/
+**/resources/
+**/__pycache__/
+.idea
