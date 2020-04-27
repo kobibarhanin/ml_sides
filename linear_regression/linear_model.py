@@ -77,7 +77,16 @@ def load_model(file_path):
     return pickle.load(open(file_path, "rb"))
 
 
-def test_model(model, target_feature_data, features_data, test_size=0.1):
+def test_model(model, test_vector):
+    test_vector = [test_vector]
+    pred = model.predict(test_vector)
+    print('prediction:')
+    for p in pred:
+        print(p)
+    return pred
+
+
+def split_test_model(model, target_feature_data, features_data, test_size=0.1):
     _, x_test, _, y_test = sklearn.model_selection.train_test_split(target_feature_data,
                                                                     features_data,
                                                                     test_size=test_size)
@@ -128,28 +137,12 @@ def build_model(data_file,
                         output=output)
 
     if test:
-        test_model(model,
-                   target_feature_data,
-                   features_data,
-                   test_size=test_size)
+        split_test_model(model,
+                         target_feature_data,
+                         features_data,
+                         test_size=test_size)
 
     if plot:
         plot_data(data,
                   target_feature_key,
                   plot_by)
-
-
-if __name__ == "__main__":
-    build_model('resources/student-mat.csv',
-                'G3',
-                ["G1", "G2", "G3", "studytime", "failures", "absences"],
-                # save_to='models/student_grades',
-                iterate=100,
-                test=True,
-                test_size=0.1,
-                plot=False,
-                plot_by='G1',
-                separator=';',
-                output=['accuracy', 'data', 'iterations'])
-
-    # model = load_model('student_grades_0.9393486947104989.pickle')
